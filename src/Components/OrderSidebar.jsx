@@ -140,7 +140,7 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
       </div>
 
       <button className="w-full mt-6 bg-[#F99147] text-black py-3 rounded-lg font-semibold">
-        Order now
+        Place Order
       </button>
     </aside>
   );
