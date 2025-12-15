@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600&display=swap');
+
+body {
+  font-family: 'Barlow', sans-serif;
+}
+
+
+.font-barlow { font-family: 'Barlow', sans-serif; }
+
+.icon-box {
+  @apply w-12 h-12 flex items-center justify-center
+         rounded-xl cursor-pointer
+         transition-all duration-300
+         text-[#F99147];
+}
+
+.shop-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #F99147;
+  color: #1F1D2B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-box:hover {
+  box-shadow: 0 0 12px rgba(249, 145, 71, 0.6);
+  transform: scale(1.05);
+}
+
+/* ACTIVE ICON */
+.icon-box.active {
+  background-color: #F99147;
+  color: #1F1D2B;
+  box-shadow: 0 0 18px rgba(249, 145, 71, 0.85);
+}
+
