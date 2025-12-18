@@ -20,23 +20,25 @@ const Sidebar = ({ showSidebar }) => {
   ];
 
   return (
-    <aside
-      className={`
-    fixed lg:static
+   <aside
+  className={`
+    hidden md:flex
+    fixed md:static
     top-0 left-0
     min-h-screen
     w-[80px]
     bg-gradient-to-b from-[#1F1D2B] to-[#17161F]
     rounded-tr-3xl rounded-br-3xl
-    flex flex-col items-center
+    flex-col items-center
     py-6
     overflow-hidden
     transform transition-transform duration-300
     ${showSidebar ? "translate-x-0" : "-translate-x-full"}
-    lg:translate-x-0
+    md:translate-x-0
     z-40
   `}
-    >
+>
+
       {/* Logo */}
       <div className="mb-10 w-12 h-12 bg-[#F99147] rounded-xl flex items-center justify-center">
         <GiShop size={24} className="text-black" />
@@ -51,17 +53,22 @@ const Sidebar = ({ showSidebar }) => {
             className="relative w-full flex justify-center cursor-pointer"
           >
             {/* Curved active background */}
+
             {active === item.id && (
               <div
-                className="
-           absolute
-    right-0
-    w-[70px]
-    h-14
-    bg-[#2A2933]
-    rounded-l-2xl
-  "
-              />
+                className=" absolute  right-0 w-[70px] h-14 bg-[#2A2933] rounded-l-2xl " >
+                <div className="absolute -top-[17%]  -right-[10%] w-4 h-3 bg-[#2A2933] rounded-lg  z-50"></div>
+                <div className="absolute -top-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
+                style={{clipPath:"ellipse(40% 40% at 0% 0%)"}}></div>
+
+
+
+                 <div className="absolute -bottom-[17%]  -right-[10%] w-4 h-3 bg-[#2A2933] rounded-lg  z-50"></div>
+                <div className="absolute -bottom-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
+                style={{clipPath:"ellipse(40% 40% at 0% 100%)"}}></div>
+              </div>
+
+              
             )}
 
             <div
@@ -84,6 +91,7 @@ const Sidebar = ({ showSidebar }) => {
           </div>
         ))}
       </div>
+      <div className="absolute bg-[#2A2933]"></div>
 
       {/* Logout */}
       <div className="mt-6">
