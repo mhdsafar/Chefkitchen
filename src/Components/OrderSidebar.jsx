@@ -16,42 +16,29 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
   const handlePlaceOrder = () => {
     if (orders.length === 0) return;
 
-    const order = {
-      orderId: "ORD-" + Date.now(),
-      date: new Date().toLocaleString(),
-      items: orders.map((item) => ({
-        name: item.name,
-        qty: item.qty,
-        price: Number(item.price),
-        size: item.size,
-      })),
-      subtotal,
-    };
-
-    navigate("/receipt", { state: order });
+    navigate("/receipt");
   };
 
   return (
     <aside
       className={`
         fixed top-0 right-0
-        min-h-screen
-        w-[380px] lg:width-[500px]
+        h-screen
+        w-[380px] lg:w-[500px]
         bg-[#1F1D2B]
-        p-6
         text-white
         rounded-l-3xl
-        transform
-        transition-transform duration-300 ease-in-out
+        transform transition-transform duration-300
         ${showCart ? "translate-x-0" : "translate-x-full"}
         z-40
         flex flex-col
       `}
     >
-      <div className="flex-1 overflow-y-auto pr-1">
-        <h2 className="font-semibold mb-4">Orders #34562</h2>
+      {/* ================= SCROLL AREA ================= */}
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <h2 className="font-semibold">Orders #34562</h2>
 
-        <div className="flex gap-2 mb-6 text-xs">
+        <div className="flex gap-2 text-xs">
           <button className="bg-[#F99147] text-black px-3 py-1 rounded-lg">
             Dine in
           </button>
@@ -63,13 +50,13 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
           </button>
         </div>
 
-        <div className="grid grid-cols-4 text-xs text-gray-400 mb-3">
+        <div className="grid grid-cols-4 text-xs text-gray-400 pt-4">
           <span className="col-span-2">Item</span>
           <span className="text-center">Qty</span>
           <span className="text-right">Price</span>
         </div>
 
-        <div className="space-y-4 mb-6 border-t border-[#393C49] pt-4 text-sm space-y-2">
+        <div className="space-y-4 border-t border-[#393C49] pt-4 text-sm">
           {orders.map((item, index) => (
             <div key={index} className="space-y-2">
               <div className="grid grid-cols-4 items-center">
@@ -84,8 +71,7 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
                     <p className="text-sm">
                       {item.name}
                       <span className="text-xs text-gray-400">
-                        {" "}
-                        ({item.size})
+                        {" "}({item.size})
                       </span>
                     </p>
                     <p className="text-xs text-gray-400">
@@ -110,7 +96,7 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
                     −
                   </button>
 
-                  <span className="text-sm">{item.qty}</span>
+                  <span>{item.qty}</span>
 
                   <button
                     onClick={() =>
@@ -127,7 +113,7 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
                 </div>
 
                 <div className="flex justify-end items-center gap-2">
-                  <span className="text-sm">
+                  <span>
                     AED {(item.qty * Number(item.price)).toFixed(2)}
                   </span>
 
@@ -149,24 +135,25 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
         </div>
       </div>
 
-      <div className="border-t border-[#393C49] pt-4 text-sm space-y-2">
-        <div className="flex justify-between text-gray-400">
+      {/* ================= FIXED FOOTER ================= */}
+      <div className="p-6 border-t border-[#393C49] bg-[#1F1D2B]">
+        <div className="flex justify-between text-sm text-gray-400 mb-2">
           <span>Discount</span>
           <span>5%</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between font-medium mb-4">
           <span>Subtotal</span>
           <span>{subtotal.toFixed(2)} AED</span>
         </div>
-      </div>
 
-      <button
-        onClick={handlePlaceOrder}
-        className="w-full mt-4 bg-[#F99147] text-black py-3 rounded-lg font-semibold"
-      >
-        Place Order
-      </button>
+        <button
+          onClick={handlePlaceOrder}
+          className="w-full bg-[#F99147] text-black py-3 rounded-lg font-semibold"
+        >
+          Place Order
+        </button>
+      </div>
     </aside>
   );
 };
