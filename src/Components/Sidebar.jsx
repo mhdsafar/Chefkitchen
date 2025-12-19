@@ -7,6 +7,9 @@ import { IoMailOutline, IoExitOutline } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+// TOTD : Make the sidebar design exactly like in the figma
+// TODO : Create folder named "Constants" and move all the constant datat [ eg : menuItems]
+
 const Sidebar = ({ showSidebar }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState("home");
@@ -20,8 +23,8 @@ const Sidebar = ({ showSidebar }) => {
   ];
 
   return (
-   <aside
-  className={`
+    <aside
+      className={`
     hidden md:flex
     fixed md:static
     top-0 left-0
@@ -37,8 +40,7 @@ const Sidebar = ({ showSidebar }) => {
     md:translate-x-0
     z-40
   `}
->
-
+    >
       {/* Logo */}
       <div className="mb-10 w-12 h-12 bg-[#F99147] rounded-xl flex items-center justify-center">
         <GiShop size={24} className="text-black" />
@@ -55,20 +57,19 @@ const Sidebar = ({ showSidebar }) => {
             {/* Curved active background */}
 
             {active === item.id && (
-              <div
-                className=" absolute  right-0 w-[70px] h-14 bg-[#2A2933] rounded-l-2xl " >
+              <div className=" absolute  right-0 w-[70px] h-14 bg-[#2A2933] rounded-l-2xl ">
                 <div className="absolute -top-[17%]  -right-[10%] w-4 h-3 bg-[#2A2933] rounded-lg  z-50"></div>
-                <div className="absolute -top-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
-                style={{clipPath:"ellipse(40% 40% at 0% 0%)"}}></div>
+                <div
+                  className="absolute -top-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
+                  style={{ clipPath: "ellipse(40% 40% at 0% 0%)" }}
+                ></div>
 
-
-
-                 <div className="absolute -bottom-[17%]  -right-[10%] w-4 h-3 bg-[#2A2933] rounded-lg  z-50"></div>
-                <div className="absolute -bottom-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
-                style={{clipPath:"ellipse(40% 40% at 0% 100%)"}}></div>
+                <div className="absolute -bottom-[17%]  -right-[10%] w-4 h-3 bg-[#2A2933] rounded-lg  z-50"></div>
+                <div
+                  className="absolute -bottom-[17%] -right-[20%] w-6 h-6 bg-gradient-to-b from-[#1F1D2B] to-[#17161F]  z-50"
+                  style={{ clipPath: "ellipse(40% 40% at 0% 100%)" }}
+                ></div>
               </div>
-
-              
             )}
 
             <div
