@@ -13,11 +13,19 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
     setOrders((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handlePlaceOrder = () => {
-    if (orders.length === 0) return;
+const handlePlaceOrder = () => {
+  if (orders.length === 0) return;
 
-    navigate("/receipt");
+  const orderData = {
+    orderId: "ORD-" + Date.now(),
+    date: new Date().toLocaleString(),
+    items: orders,
+    subtotal,
   };
+
+  navigate("/receipt", { state: orderData });
+};
+
 
   return (
     <aside

@@ -26,7 +26,7 @@ const Sidebar = ({ showSidebar }) => {
     fixed md:static
     top-0 left-0
     min-h-screen
-    w-[80px]
+    w-[90px]
     bg-gradient-to-b from-[#1F1D2B] to-[#17161F]
     rounded-tr-3xl rounded-br-3xl
     flex-col items-center
