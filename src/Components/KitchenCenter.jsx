@@ -6,6 +6,13 @@ import dishImage1 from "../assets/images/Image 7 (1).svg";
 import dishImage2 from "../assets/images/Image 7 (2).svg";
 import dishImage3 from "../assets/images/Image 7.svg";
 
+// TODO : Move the dishes also to the constant
+// TODO : Split the components to small component for better readablity and maintainability
+// TODO : Use contenxt here for the better state management 
+// TODO : Add a button here for add to the cart 
+// TODO : Show the cart count on the top of the cart icon 
+// TODO : Use the same font style  in the figma
+
 const dishes = [
   {
     name: "Healthy noodle with spinach leaf",
