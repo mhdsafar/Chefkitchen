@@ -1,24 +1,23 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Landingpage from "./Components/Landingpage";
-import ChefKitchen from "./pages/ChefKitchen";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./Components/Landingpage";
+import Menu from "./pages/Menu";
 import Receipt from "./Components/Receipt";
-
-// TODO: Rewirite the route and component name Meaning full one [eg: ❌ kitchen --> ✅ menu , ChefKitchen ---> Menu or ProductList]
-
+import { OrderProvider } from "./context/OrderContext";
 
 function App() {
-  return(
-     <BrowserRouter>
-     <Routes>
-      <Route path="/" element={<Landingpage />} />
-      <Route path="/kitchen" element={<ChefKitchen />} />
-      <Route path="/receipt" element={<Receipt />} />
+  return (
+    <OrderProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/kitchen" element={<Menu />} />
 
-
-    </Routes>
-     </BrowserRouter>
+          <Route path="/receipt" element={<Receipt />} />
+        </Routes>
+      </BrowserRouter>
+    </OrderProvider>
   );
-  
 }
 
 export default App;

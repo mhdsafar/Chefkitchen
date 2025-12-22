@@ -1,8 +1,13 @@
-import { IoTrashOutline } from "react-icons/io5";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Trash } from "../constants/icons";
+import { useOrder } from "../context/OrderContext.jsx";
 
-const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
+const OrderSidebar = ({ showCart }) => {
+  const { orders, setOrders } = useOrder();
   const navigate = useNavigate();
+
+  const [orderType, setOrderType] = useState("Dine In");
 
   const subtotal = orders.reduce(
     (total, item) => total + Number(item.price) * item.qty,
@@ -13,19 +18,24 @@ const OrderSidebar = ({ orders = [], setOrders, showCart }) => {
     setOrders((prev) => prev.filter((_, i) => i !== index));
   };
 
-const handlePlaceOrder = () => {
-  if (orders.length === 0) return;
+  const handlePlaceOrder = () => {
+    if (orders.length === 0) return;
 
-  const orderData = {
-    orderId: "ORD-" + Date.now(),
-    date: new Date().toLocaleString(),
-    items: orders,
-    subtotal,
+    navigate("/receipt", {
+      state: {
+        orderId: "ORD-" + Date.now(),
+        date: new Date().toLocaleString(),
+        items: orders.map((item) => ({
+          name: item.name,
+          qty: item.qty,
+          price: Number(item.price),
+          size: item.size,
+        })),
+        subtotal,
+        orderType,
+      },
+    });
   };
-
-  navigate("/receipt", { state: orderData });
-};
-
 
   return (
     <aside
@@ -42,28 +52,47 @@ const handlePlaceOrder = () => {
         flex flex-col
       `}
     >
-      {/* ================= SCROLL AREA ================= */}
+      {/* CONTENT */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
-        <h2 className="font-semibold">Orders #34562</h2>
+        <h2 className="font-semibold text-lg">Orders</h2>
 
-        <div className="flex gap-2 text-xs">
-          <button className="bg-[#F99147] text-black px-3 py-1 rounded-lg">
-            Dine in
+        {/* DINE IN / TAKE AWAY */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => setOrderType("Dine In")}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition
+              ${
+                orderType === "Dine In"
+                  ? "bg-[#F99147] text-black"
+                  : "bg-[#2D2B3C] text-gray-300"
+              }
+            `}
+          >
+            Dine In
           </button>
-          <button className="bg-[#2D2B3C] px-3 py-1 rounded-lg">
-            Take away
-          </button>
-          <button className="bg-[#2D2B3C] px-3 py-1 rounded-lg">
-            Delivery
+
+          <button
+            onClick={() => setOrderType("Take Away")}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition
+              ${
+                orderType === "Take Away"
+                  ? "bg-[#F99147] text-black"
+                  : "bg-[#2D2B3C] text-gray-300"
+              }
+            `}
+          >
+            Take Away
           </button>
         </div>
 
+        {/* HEADER */}
         <div className="grid grid-cols-4 text-xs text-gray-400 pt-4">
           <span className="col-span-2">Item</span>
           <span className="text-center">Qty</span>
           <span className="text-right">Price</span>
         </div>
 
+        {/* ITEMS */}
         <div className="space-y-4 border-t border-[#393C49] pt-4 text-sm">
           {orders.map((item, index) => (
             <div key={index} className="space-y-2">
@@ -129,7 +158,7 @@ const handlePlaceOrder = () => {
                     onClick={() => handleDelete(index)}
                     className="p-1 rounded-md hover:bg-[#2D2B3C]"
                   >
-                    <IoTrashOutline className="text-gray-400 hover:text-red-500" />
+                    <Trash className="w-4 h-4 text-gray-400 hover:text-red-500" />
                   </button>
                 </div>
               </div>
@@ -143,13 +172,8 @@ const handlePlaceOrder = () => {
         </div>
       </div>
 
-      {/* ================= FIXED FOOTER ================= */}
+      {/* FOOTER */}
       <div className="p-6 border-t border-[#393C49] bg-[#1F1D2B]">
-        <div className="flex justify-between text-sm text-gray-400 mb-2">
-          <span>Discount</span>
-          <span>5%</span>
-        </div>
-
         <div className="flex justify-between font-medium mb-4">
           <span>Subtotal</span>
           <span>{subtotal.toFixed(2)} AED</span>

@@ -27,7 +27,7 @@ const Landingpage = () => {
         </p>
 
         <button
-          onClick={() => navigate("/kitchen")}
+          onClick={() => navigate("/menu")}
           className="bg-orange-400 hover:bg-orange-500 transition text-white font-medium w-full py-3 rounded-xl mt-6"
         >
           Explore Menu
