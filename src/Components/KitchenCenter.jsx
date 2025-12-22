@@ -23,14 +23,24 @@ const KitchenCenter = () => {
     dish.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleAddToCart = (dish, index) => {
+    const size = selectedSizes[index];
+    if (!size) return;
+
+    addToOrder(dish, size);
+
+    setSelectedSizes((prev) => {
+      const updated = { ...prev };
+      delete updated[index];
+      return updated;
+    });
+  };
+
   return (
     <main className="flex-1 px-4 pb-28 text-white overflow-y-auto scrollbar-hide">
-      {/* HEADER */}
       <div className="sticky top-0 z-40 bg-[#2A2933] pt-6 pb-4">
         <div className="relative mb-4">
-          <h1 className="text-2xl lg:text-3xl font-semibold">
-            Chef Kitchen
-          </h1>
+          <h1 className="text-2xl lg:text-3xl font-semibold">Chef Kitchen</h1>
 
           <p className="text-xs lg:text-sm text-gray-400 mt-1">
             {dateTime.toLocaleDateString("en-GB", {
@@ -46,7 +56,6 @@ const KitchenCenter = () => {
             })}
           </p>
 
-          {/* SEARCH */}
           <div className="flex items-center gap-2 bg-[#1F1D2B] px-3 py-2 rounded-lg w-full lg:w-80 mt-4 lg:absolute lg:right-20 lg:top-0">
             <SearchIcon className="w-4 h-4 text-gray-400" />
             <input
@@ -63,7 +72,6 @@ const KitchenCenter = () => {
           </div>
         </div>
 
-        {/* TABS */}
         <div className="relative flex gap-6 text-sm text-gray-300 pb-2 mb-4">
           <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gray-500/30"></span>
           {TABS.map((tab) => (
@@ -74,7 +82,6 @@ const KitchenCenter = () => {
           ))}
         </div>
 
-        {/* ORDER TYPE */}
         <div className="flex justify-between items-center">
           <h2 className="font-semibold">Choose Dishes</h2>
 
@@ -111,26 +118,22 @@ const KitchenCenter = () => {
         </div>
       </div>
 
-      {/* DISH GRID */}
-      <div className="mt-6 grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="mt-16 grid grid-cols-2 lg:grid-cols-5 gap-6">
         {filteredDishes.map((dish, index) => (
           <div
             key={index}
-            className="bg-[#1F1D2B] rounded-xl p-4 pt-8"
+            className="bg-[#1F1D2B] rounded-xl p-4 pt-16 flex flex-col h-full relative overflow-visible"
           >
-            {/* IMAGE */}
-            <div className="flex justify-center -mt-6 mb-3">
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2">
               <img
                 src={dish.image}
                 alt={dish.name}
-                className="w-20 h-20 rounded-full object-cover"
+                className="w-26 h-26 rounded-full object-cover shadow-lg"
               />
             </div>
 
-            {/* NAME */}
-            <p className="text-center text-sm">{dish.name}</p>
+            <p className="text-center text-sm mt-8">{dish.name}</p>
 
-            {/* PRICE */}
             <div className="flex justify-center gap-2 mt-2 text-xs">
               <span className="line-through text-red-400 opacity-80">
                 {dish.oldPrice}
@@ -140,33 +143,43 @@ const KitchenCenter = () => {
               </span>
             </div>
 
-            {/* AVAILABILITY */}
             <p className="text-xs text-gray-400 text-center mt-1">
               {dish.available}
             </p>
 
-            {/* SIZE BUTTONS */}
             <div className="flex justify-center gap-2 mt-3">
               {["S", "M", "L"].map((size) => (
                 <button
                   key={size}
-                  disabled={selectedSizes[index] === size}
-                  onClick={() => {
+                  onClick={() =>
                     setSelectedSizes((prev) => ({
                       ...prev,
                       [index]: size,
-                    }));
-                    addToOrder(dish, size);
-                  }}
+                    }))
+                  }
                   className={`px-3 py-1 text-xs rounded ${
                     selectedSizes[index] === size
-                      ? "bg-green-500 text-black cursor-not-allowed"
+                      ? "bg-orange-500 text-black"
                       : "bg-[#2D2B3C] text-gray-400 hover:text-white"
                   }`}
                 >
                   {size}
                 </button>
               ))}
+            </div>
+
+            <div className="mt-auto pt-4">
+              <button
+                disabled={!selectedSizes[index]}
+                onClick={() => handleAddToCart(dish, index)}
+                className={`w-full mx-1 py-2 text-xs rounded transition ${
+                  selectedSizes[index]
+                    ? "bg-green-500 text-black hover:bg-green-400"
+                    : "bg-orange-600 text-black cursor-not-allowed"
+                }`}
+              >
+                Add to cart
+              </button>
             </div>
           </div>
         ))}

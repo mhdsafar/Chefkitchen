@@ -5,36 +5,34 @@ const OrderContext = createContext();
 export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
 
- const addToOrder = (dish, size) => {
-  setOrders((prev) => {
-    const existingIndex = prev.findIndex(
-      (item) => item.name === dish.name && item.size === size
-    );
+  const addToOrder = (dish, size) => {
+    const price = Number(dish.prices[size].replace(/[^\d.]/g, ""));
 
-    // ✅ If same dish + same size exists → increase qty
-    if (existingIndex !== -1) {
-      return prev.map((item, index) =>
-        index === existingIndex
-          ? { ...item, qty: item.qty + 1 }
-          : item
+    setOrders((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) => item.name === dish.name && item.size === size
       );
-    }
 
-    // ✅ Otherwise add new entry (new size)
-    return [
-      ...prev,
-      {
-        name: dish.name,
-        image: dish.image,
-        size,
-        qty: 1,
-        price: Number(dish.price.replace(/[^\d.]/g, "")),
-      },
-    ];
-  });
-};
+      if (existingIndex !== -1) {
+        return prev.map((item, index) =>
+          index === existingIndex
+            ? { ...item, qty: item.qty + 1 }
+            : item
+        );
+      }
 
-
+      return [
+        ...prev,
+        {
+          name: dish.name,
+          image: dish.image,
+          size,
+          qty: 1,
+          price,
+        },
+      ];
+    });
+  };
 
   return (
     <OrderContext.Provider value={{ orders, setOrders, addToOrder }}>
