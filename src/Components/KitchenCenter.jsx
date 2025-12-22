@@ -72,7 +72,7 @@ const KitchenCenter = () => {
           </div>
         </div>
 
-        <div className="relative flex gap-6 text-sm text-gray-300 pb-2 mb-4">
+        <div className="relative flex gap-6 text-md text-gray-300 pb-2 mb-4">
           <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gray-500/30"></span>
           {TABS.map((tab) => (
             <button key={tab} className="relative group text-white">
@@ -118,7 +118,7 @@ const KitchenCenter = () => {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="mt-10 grid grid-cols-2 lg:grid-cols-5 gap-6">
         {filteredDishes.map((dish, index) => (
           <div
             key={index}
