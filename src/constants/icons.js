@@ -9,6 +9,7 @@ import Messages from "../assets/images/Message.svg?react";
 import Notification from "../assets/images/Notification.svg?react";
 import Logout from "../assets/images/Logout.svg?react";
 import Logo from "../assets/images/Vector.svg?react";
+import HeartFilled from "../assets/images/HeartFilled.svg?react";
 
 export {
   IoIosSearch as SearchIcon,
@@ -22,4 +23,5 @@ export {
   Notification,
   Logout,
   Logo,
+  HeartFilled,
 };

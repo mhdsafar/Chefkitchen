@@ -9,6 +9,7 @@ const getAvailability = (min, max) =>
 export const DISHES = [
   {
     name: "Healthy noodle with spinach leaf",
+    category: "today",
     prices: { S: "20.00 AED", M: "25.00 AED", L: "30.00 AED" },
     oldPrices: { S: "26.00 AED", M: "32.00 AED", L: "38.00 AED" },
     available: getAvailability(10, 30),
@@ -16,6 +17,7 @@ export const DISHES = [
   },
   {
     name: "Hot spicy fried rice with omelet",
+    category: "today",
     prices: { S: "22.00 AED", M: "27.00 AED", L: "33.00 AED" },
     oldPrices: { S: "28.00 AED", M: "34.00 AED", L: "40.00 AED" },
     available: getAvailability(8, 25),
@@ -23,6 +25,7 @@ export const DISHES = [
   },
   {
     name: "Spicy instant noodle with special omelette",
+    category: "our",
     prices: { S: "21.00 AED", M: "26.00 AED", L: "32.00 AED" },
     oldPrices: { S: "27.00 AED", M: "33.00 AED", L: "39.00 AED" },
     available: getAvailability(12, 28),
@@ -30,11 +33,14 @@ export const DISHES = [
   },
   {
     name: "Chicken ramen with soft boiled egg",
+    category: "south",
     prices: { S: "28.00 AED", M: "34.00 AED", L: "40.00 AED" },
     oldPrices: { S: "35.00 AED", M: "42.00 AED", L: "48.00 AED" },
     available: getAvailability(6, 20),
     image: dish2,
   },
+
+
   {
     name: "Vegetable hakka noodles",
     prices: { S: "18.00 AED", M: "23.00 AED", L: "28.00 AED" },

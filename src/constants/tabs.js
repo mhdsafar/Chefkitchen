@@ -1,5 +1,6 @@
 export const TABS = [
-  "Today Special",
-  "Our Specials",
-  "South Indian Special",
+  { label: "All", value: "all" },
+  { label: "Today Special", value: "today" },
+  { label: "Our Specials", value: "our" },
+  { label: "South Indian Special", value: "south" },
 ];

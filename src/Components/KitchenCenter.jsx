@@ -4,6 +4,7 @@ import { TABS } from "../constants/tabs";
 import { ORDER_TYPES } from "../constants/orderTypes";
 import { SearchIcon, ArrowDown, CloseIcon } from "../constants/icons";
 import { useOrder } from "../context/OrderContext.jsx";
+import DishCard from "./DishCard.jsx";
 
 const KitchenCenter = () => {
   const { addToOrder } = useOrder();
@@ -13,15 +14,23 @@ const KitchenCenter = () => {
   const [open, setOpen] = useState(false);
   const [dateTime, setDateTime] = useState(new Date());
   const [searchTerm, setSearchTerm] = useState("");
+  // const [activeTab, setActiveTab] = useState("today");
+  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const filteredDishes = DISHES.filter((dish) =>
-    dish.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredDishes = DISHES.filter((dish) => {
+    const matchesTab = activeTab === "all" || dish.category === activeTab;
+
+    const matchesSearch = dish.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+    return matchesTab && matchesSearch;
+  });
 
   const handleAddToCart = (dish, index) => {
     const size = selectedSizes[index];
@@ -71,13 +80,22 @@ const KitchenCenter = () => {
             )}
           </div>
         </div>
-
-        <div className="relative flex gap-6 text-md text-gray-300 pb-2 mb-4">
+        <div className="relative flex gap-6 text-sm md:text-md pb-2 mb-4">
           <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gray-500/30"></span>
+
           {TABS.map((tab) => (
-            <button key={tab} className="relative group text-white">
-              {tab}
-              <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-orange-500 transition-all group-hover:w-full"></span>
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`relative pb-2 ${
+                activeTab === tab.value ? "text-white" : "text-gray-400"
+              }`}
+            >
+              {tab.label}
+
+              {activeTab === tab.value && (
+                <span className="absolute left-0 bottom-0 h-[2px] w-full bg-orange-500" />
+              )}
             </button>
           ))}
         </div>
@@ -118,70 +136,18 @@ const KitchenCenter = () => {
         </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="mt-12 grid grid-cols-2 lg:grid-cols-5 gap-6 gap-y-12">
         {filteredDishes.map((dish, index) => (
-          <div
+          <DishCard
             key={index}
-            className="bg-[#1F1D2B] rounded-xl p-4 pt-16 flex flex-col h-full relative overflow-visible"
-          >
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-              <img
-                src={dish.image}
-                alt={dish.name}
-                className="w-26 h-26 rounded-full object-cover shadow-lg"
-              />
-            </div>
-
-            <p className="text-center text-sm mt-8">{dish.name}</p>
-
-            <div className="flex justify-center gap-2 mt-2 text-xs">
-              <span className="line-through text-red-400 opacity-80">
-                {dish.oldPrice}
-              </span>
-              <span className="text-green-400 font-semibold">
-                {dish.price}
-              </span>
-            </div>
-
-            <p className="text-xs text-gray-400 text-center mt-1">
-              {dish.available}
-            </p>
-
-            <div className="flex justify-center gap-2 mt-3">
-              {["S", "M", "L"].map((size) => (
-                <button
-                  key={size}
-                  onClick={() =>
-                    setSelectedSizes((prev) => ({
-                      ...prev,
-                      [index]: size,
-                    }))
-                  }
-                  className={`px-3 py-1 text-xs rounded ${
-                    selectedSizes[index] === size
-                      ? "bg-orange-500 text-black"
-                      : "bg-[#2D2B3C] text-gray-400 hover:text-white"
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-auto pt-4">
-              <button
-                disabled={!selectedSizes[index]}
-                onClick={() => handleAddToCart(dish, index)}
-                className={`w-full mx-1 py-2 text-xs rounded transition ${
-                  selectedSizes[index]
-                    ? "bg-green-500 text-black hover:bg-green-400"
-                    : "bg-orange-600 text-black cursor-not-allowed"
-                }`}
-              >
-                Add to cart
-              </button>
-            </div>
-          </div>
+            dish={dish}
+            index={index}
+            selectedSize={selectedSizes[index]}
+            onSelectSize={(i, size) =>
+              setSelectedSizes((prev) => ({ ...prev, [i]: size }))
+            }
+            onAddToCart={handleAddToCart}
+          />
         ))}
       </div>
     </main>

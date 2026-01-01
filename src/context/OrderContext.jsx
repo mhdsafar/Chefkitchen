@@ -4,10 +4,9 @@ const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   const addToOrder = (dish, size) => {
-    const price = Number(dish.prices[size].replace(/[^\d.]/g, ""));
-
     setOrders((prev) => {
       const existingIndex = prev.findIndex(
         (item) => item.name === dish.name && item.size === size
@@ -28,23 +27,33 @@ export const OrderProvider = ({ children }) => {
           image: dish.image,
           size,
           qty: 1,
-          price,
+          price: Number(dish.prices[size].replace(/[^\d.]/g, "")),
         },
       ];
     });
   };
 
+  const toggleFavourite = (dishName) => {
+    setFavourites((prev) =>
+      prev.includes(dishName)
+        ? prev.filter((name) => name !== dishName)
+        : [...prev, dishName]
+    );
+  };
+
   return (
-    <OrderContext.Provider value={{ orders, setOrders, addToOrder }}>
+    <OrderContext.Provider
+      value={{
+        orders,
+        setOrders,
+        addToOrder,
+        favourites,
+        toggleFavourite,
+      }}
+    >
       {children}
     </OrderContext.Provider>
   );
 };
 
-export const useOrder = () => {
-  const context = useContext(OrderContext);
-  if (!context) {
-    throw new Error("useOrder must be used inside OrderProvider");
-  }
-  return context;
-};
+export const useOrder = () => useContext(OrderContext);

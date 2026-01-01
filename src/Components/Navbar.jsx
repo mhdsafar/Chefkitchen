@@ -44,7 +44,7 @@ const Navbar = () => {
                   ${
                     active === item.id
                       ? "bg-transparent text-orange-500 shadow-orange-500/20 shadow-lg"
-                      : "bg-transparent text-gray-400 hover:text-white"
+                      : "bg-transparent text-white hover:text-white"
                   }
                 `}
               >

@@ -7,9 +7,9 @@ import {
 } from "./icons";
 
 export const SIDEBAR_MENU = [
-  { id: "home", icon: Home },
-  { id: "orders", icon: Discount },
-  { id: "favorites", icon: Heart },
-  { id: "messages", icon: Messages },
-  { id: "notifications", icon: Notification },
+  { id: "menu", icon: Home, path: "/menu" },
+  { id: "orders", icon: Discount, path: "/orders" },
+  { id: "favorites", icon: Heart, path: "/favorites" },
+  { id: "messages", icon: Messages, path: "/messages" },
+  { id: "notifications", icon: Notification, path: "/notifications" },
 ];

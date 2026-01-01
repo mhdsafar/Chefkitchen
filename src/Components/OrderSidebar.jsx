@@ -63,7 +63,7 @@ const OrderSidebar = ({ showCart }) => {
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition
               ${
                 orderType === "Dine In"
-                  ? "bg-[#F99147] text-black"
+                  ? "bg-orange-600 text-black"
                   : "bg-[#2D2B3C] text-gray-300"
               }
             `}
@@ -76,7 +76,7 @@ const OrderSidebar = ({ showCart }) => {
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition
               ${
                 orderType === "Take Away"
-                  ? "bg-[#F99147] text-black"
+                  ? "bg-orange-600 text-black"
                   : "bg-[#2D2B3C] text-gray-300"
               }
             `}
@@ -181,7 +181,7 @@ const OrderSidebar = ({ showCart }) => {
 
         <button
           onClick={handlePlaceOrder}
-          className="w-full bg-[#F99147] text-black py-3 rounded-lg font-semibold"
+          className="w-full bg-orange-600 text-black py-3 rounded-lg font-semibold hover:bg-orange-500"
         >
           Place Order
         </button>
