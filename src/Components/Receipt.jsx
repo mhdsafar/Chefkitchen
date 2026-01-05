@@ -96,7 +96,7 @@ const Receipt = () => {
           </div>
 
           {/* ACTIONS */}
-          <div className="flex flex-col gap-3 print:hidden">
+          <div className="flex  flex-row  gap-3 print:hidden">
             <button
               onClick={() => window.print()}
               className="px-5 py-2 rounded-xl bg-[#F99147] text-black font-semibold shadow-lg hover:scale-105 transition"

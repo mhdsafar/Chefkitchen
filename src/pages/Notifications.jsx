@@ -1,11 +1,9 @@
-import React from 'react'
-
 const Notifications = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <main className="flex-1 px-4 py-6 text-white">
+      <h1 className="text-xl font-semibold">Notifications</h1>
+    </main>
+  );
+};
 
-export default Notifications
+export default Notifications;

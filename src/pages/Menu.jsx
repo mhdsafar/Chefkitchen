@@ -4,6 +4,8 @@ import OrderSidebar from "../Components/OrderSidebar";
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import CartIcon from "../Components/CartIcon";
+import { Outlet } from "react-router-dom";
+
 
 const Menu = () => {
   const [showCart, setShowCart] = useState(false);
@@ -15,7 +17,8 @@ const Menu = () => {
       <Sidebar showSidebar={showSidebar} />
       <Navbar showNavbar={showNavbar} />
 
-      <KitchenCenter />
+     <Outlet />
+
 
       <OrderSidebar showCart={showCart} />
 

@@ -57,11 +57,19 @@ const Sidebar = ({ showSidebar }) => {
                   >
                     <Icon className="w-5 h-5" />
                   </div>
+
+                      <div className="absolute h-4 w-4 bg-green-500 -top-4 -right-0"></div>
+                      <div className="absolute h-4 w-4 bg-red-500 -top-4 -right-0 rounded-br-xl"></div>
+                      <div className="absolute h-4 w-4 bg-green-500 -top-4 -right-0"></div>
+                      <div className="absolute h-4 w-4 bg-red-500 -top-4 -right-0 rounded-br-xl"></div>
+
                 </>
               )}
             </NavLink>
+            
           );
         })}
+        
       </div>
 
       <div className="mt-6">
