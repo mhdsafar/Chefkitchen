@@ -1,0 +1,208 @@
+import React, { useState } from 'react';
+import { Search, Plus, Menu, Settings, Bell, ChevronDown, ChevronRight, Trash2 } from 'lucide-react';
+
+const CategoryListDashboard = () => {
+  const [categories, setCategories] = useState([
+    { id: 1, name: 'BEAUTY PRODUCTS', icon: '🔬', active: true },
+    { id: 2, name: 'FASHION', icon: '👗', active: true },
+    { id: 3, name: 'APPARELS', icon: '👗', active: true },
+    { id: 4, name: 'COSMETICS', icon: '👗', active: true },
+    { id: 5, name: 'FOOD & BEVERAGES', icon: '👗', active: true },
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [expandedMenu, setExpandedMenu] = useState('Category');
+
+  const toggleCategory = (id) => {
+    setCategories(categories.map(cat => 
+      cat.id === id ? { ...cat, active: !cat.active } : cat
+    ));
+  };
+
+  const deleteCategory = (id) => {
+    setCategories(categories.filter(cat => cat.id !== id));
+  };
+
+  const menuItems = [
+    { 
+      name: 'Category', 
+      icon: '📦', 
+      submenu: ['Category List', 'New Category'],
+      expanded: true 
+    },
+    { name: 'Products', icon: '🏷️', hasArrow: true },
+    { 
+      name: 'Orders', 
+      icon: '🛒', 
+      submenu: ['Order List'],
+      expandable: true 
+    },
+    { name: 'Din in', icon: '🍽️', hasArrow: true },
+    { name: 'Banners', icon: '🖼️', hasArrow: true },
+    { name: 'Delivery Location', icon: '📍', hasArrow: true },
+    { name: 'Delivery Mode', icon: '🚚', hasArrow: true },
+    { name: 'Payment Mode', icon: '💲', hasArrow: true },
+  ];
+
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Sidebar */}
+      <div className="w-64 bg-white shadow-lg">
+        {/* Logo */}
+        <div className="flex items-center gap-2 p-4 border-b">
+          <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-xl font-bold">O</span>
+          </div>
+          <span className="text-2xl font-bold text-orange-500">Olabis</span>
+        </div>
+
+        {/* Menu Items */}
+        <nav className="p-4">
+          {menuItems.map((item, index) => (
+            <div key={index} className="mb-2">
+              <div
+                className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+                  item.name === 'Category' ? 'bg-orange-50 text-orange-500' : 'text-gray-700 hover:bg-gray-50'
+                }`}
+                onClick={() => item.expandable && setExpandedMenu(expandedMenu === item.name ? '' : item.name)}
+              >
+                <div className="flex items-center gap-3">
+                  <span>{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </div>
+                {item.hasArrow && <ChevronRight className="w-4 h-4" />}
+                {item.expandable && (
+                  <ChevronDown className={`w-4 h-4 transition-transform ${expandedMenu === item.name ? 'rotate-180' : ''}`} />
+                )}
+              </div>
+              
+              {/* Submenu */}
+              {item.submenu && (item.expanded || expandedMenu === item.name) && (
+                <div className="ml-8 mt-1 space-y-1">
+                  {item.submenu.map((subitem, subindex) => (
+                    <div
+                      key={subindex}
+                      className={`p-2 rounded cursor-pointer text-sm ${
+                        subitem === 'Category List' ? 'text-orange-500' : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      • {subitem}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Menu className="w-6 h-6 text-gray-600 cursor-pointer" />
+            <span className="text-xl font-semibold text-gray-700">DEMO</span>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <Bell className="w-6 h-6 text-gray-600 cursor-pointer" />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">13</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <img
+                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin"
+                alt="Admin"
+                className="w-10 h-10 rounded-full"
+              />
+              <div>
+                <div className="font-semibold text-gray-800">Admin</div>
+                <div className="text-xs text-gray-500">Editor</div>
+              </div>
+            </div>
+            <Settings className="w-6 h-6 text-gray-600 cursor-pointer" />
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <div className="flex-1 overflow-auto p-6">
+          <div className="bg-white rounded-lg shadow">
+            {/* Page Header */}
+            <div className="p-6 border-b">
+              <h1 className="text-2xl font-bold text-gray-800">Category List</h1>
+            </div>
+
+            {/* Search and Add Button */}
+            <div className="p-6 flex items-center justify-between border-b">
+              <div className="relative flex-1 max-w-md">
+                <input
+                  type="text"
+                  placeholder="Search here..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
+              </div>
+              <button className="ml-4 flex items-center gap-2 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                <Plus className="w-5 h-5" />
+                <span className="font-medium">Add New</span>
+              </button>
+            </div>
+
+            {/* Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="text-left p-4 font-semibold text-gray-700">Category</th>
+                    <th className="text-left p-4 font-semibold text-gray-700">Name</th>
+                    <th className="text-left p-4 font-semibold text-gray-700">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {categories
+                    .filter(cat => cat.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                    .map((category) => (
+                      <tr key={category.id} className="border-b hover:bg-gray-50 transition-colors">
+                        <td className="p-4">
+                          <div className="w-12 h-12 bg-teal-700 rounded flex items-center justify-center">
+                            <span className="text-2xl">{category.icon}</span>
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <span className="text-gray-700 font-medium">{category.name}</span>
+                        </td>
+                        <td className="p-4">
+                          <div className="flex items-center gap-3">
+                            <label className="relative inline-flex items-center cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={category.active}
+                                onChange={() => toggleCategory(category.id)}
+                                className="sr-only peer"
+                              />
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                            <button
+                              onClick={() => deleteCategory(category.id)}
+                              className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                            >
+                              <Trash2 className="w-5 h-5 text-gray-600 hover:text-red-500" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryListDashboard;

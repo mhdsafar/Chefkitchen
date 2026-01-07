@@ -9,6 +9,9 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import { OrderProvider } from "./context/OrderContext";
 import DashboardLayout from "./layouts/DashboardLayout";
+import Category from "./pages/Admin/Category";
+import Products from "./pages/Admin/Products";
+import Order from "./pages/Admin/Order";
 
 function App() {
   return (
@@ -28,7 +31,9 @@ function App() {
           <Route path="/receipt" element={<Receipt />} />
 
           <Route path="/admin" element={<DashboardLayout/>}>
-            
+               <Route index element={<Category/>}/>
+                <Route path='products' element={<Products/>}/>
+                <Route path='orders' element={<Order/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
