@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Receipt = () => {
@@ -13,19 +13,24 @@ const Receipt = () => {
     );
   }
 
-  const { orderId, date, items, subtotal, orderType } = state;
+  const {
+    orderId,
+    date,
+    customer,
+    items,
+    subtotal,
+    orderType,
+  } = state;
 
   return (
-    <div className="relative min-h-screen">
-      {/* MENU BACKGROUND (VISIBLE) */}
+    <div className="relative min-h-screen ">
+      {/* BACKGROUND */}
       <div className="absolute inset-0 bg-[#1F1D2B]" />
-
-      {/* SOFT OVERLAY (NOT SOLID) */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/40 backdrop-blur-[2px]" />
 
       {/* RECEIPT MODAL */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="flex gap-6 items-start">
+<div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center md:items-start">
           {/* RECEIPT */}
           <div
             id="receipt"
@@ -48,6 +53,7 @@ const Receipt = () => {
 
             {/* BODY */}
             <div className="p-4 space-y-3 text-gray-800">
+              {/* META */}
               <div className="flex justify-between text-xs">
                 <span className="text-gray-500">Order ID</span>
                 <span>{orderId}</span>
@@ -55,8 +61,29 @@ const Receipt = () => {
 
               <div className="flex justify-between text-xs">
                 <span className="text-gray-500">Date</span>
-                <span>{date}</span>
+                <span>
+  {new Date(date).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  })}
+</span>
+
               </div>
+
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-500">Customer</span>
+                <span>{customer?.name || "—"}</span>
+              </div>
+
+              {/* <div className="flex justify-between text-xs">
+                <span className="text-gray-500">Mobile</span>
+                <span>{customer?.mobile || "—"}</span>
+              </div> */}
 
               <div className="flex justify-between text-xs font-medium">
                 <span className="text-gray-500">Order Type</span>
@@ -73,7 +100,7 @@ const Receipt = () => {
                       {item.name} × {item.qty}
                     </span>
                     <span>
-                      AED {(item.qty * item.price).toFixed(2)}
+                      $ {(item.qty * item.price).toFixed(2)}
                     </span>
                   </div>
                 ))}
@@ -85,7 +112,7 @@ const Receipt = () => {
               <div className="flex justify-between font-bold text-sm">
                 <span>Total</span>
                 <span className="text-[#F99147]">
-                  AED {subtotal.toFixed(2)}
+                  $ {subtotal.toFixed(2)}
                 </span>
               </div>
 
@@ -96,7 +123,7 @@ const Receipt = () => {
           </div>
 
           {/* ACTIONS */}
-          <div className="flex  flex-row  gap-3 print:hidden">
+<div className="flex flex-row gap-3 mt-4 md:mt-0 print:hidden">
             <button
               onClick={() => window.print()}
               className="px-5 py-2 rounded-xl bg-[#F99147] text-black font-semibold shadow-lg hover:scale-105 transition"

@@ -6,6 +6,20 @@ export const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [favourites, setFavourites] = useState([]);
 
+  const [placedOrders, setPlacedOrders] = useState(() => {
+    const stored = localStorage.getItem("placedOrders");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  const savePlacedOrders = (updater) => {
+    setPlacedOrders((prev) => {
+      const updated =
+        typeof updater === "function" ? updater(prev) : updater;
+      localStorage.setItem("placedOrders", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   const addToOrder = (dish, size) => {
     setOrders((prev) => {
       const existingIndex = prev.findIndex(
@@ -49,6 +63,8 @@ export const OrderProvider = ({ children }) => {
         addToOrder,
         favourites,
         toggleFavourite,
+        placedOrders,
+        setPlacedOrders: savePlacedOrders,
       }}
     >
       {children}

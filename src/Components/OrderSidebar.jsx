@@ -1,13 +1,15 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Trash } from "../constants/icons";
 import { useOrder } from "../context/OrderContext.jsx";
+import { useState } from "react";
 
 const OrderSidebar = ({ showCart }) => {
-  const { orders, setOrders } = useOrder();
+  const { orders, setOrders, placedOrders, setPlacedOrders } = useOrder();
   const navigate = useNavigate();
 
   const [orderType, setOrderType] = useState("Dine In");
+  const [customerName, setCustomerName] = useState("");
+  const [customerMobile, setCustomerMobile] = useState("");
 
   const subtotal = orders.reduce(
     (total, item) => total + Number(item.price) * item.qty,
@@ -21,19 +23,32 @@ const OrderSidebar = ({ showCart }) => {
   const handlePlaceOrder = () => {
     if (orders.length === 0) return;
 
-    navigate("/receipt", {
-      state: {
-        orderId: "ORD-" + Date.now(),
-        date: new Date().toLocaleString(),
-        items: orders.map((item) => ({
-          name: item.name,
-          qty: item.qty,
-          price: Number(item.price),
-          size: item.size,
-        })),
-        subtotal,
-        orderType,
+    const orderData = {
+      id: Date.now(),
+      orderId: "ORD-" + Date.now(),
+      date: new Date().toLocaleString(),
+      customer: {
+        name: customerName,
+        mobile: customerMobile,
       },
+      orderType,
+      items: orders,
+      subtotal,
+      status: "Pending",
+      payment: "Cash",
+      active: true,
+    };
+
+    setPlacedOrders((prev) => {
+      const updated = [...prev, orderData];
+      console.log("Updated placedOrders:", updated);
+      return updated;
+    });
+
+    setOrders([]);
+
+    navigate("/receipt", {
+      state: orderData,
     });
   };
 
@@ -52,12 +67,26 @@ const OrderSidebar = ({ showCart }) => {
         flex flex-col
       `}
     >
-      {/* CONTENT */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         <h2 className="font-semibold text-lg">Orders</h2>
 
-        {/* DINE IN / TAKE AWAY */}
-        <div className="flex gap-2">
+        <div className="space-y-3">
+          <input
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="Customer Name"
+            className="w-full bg-[#2D2B3C] px-3 py-2 rounded-lg text-sm outline-none"
+          />
+
+          <input
+            value={customerMobile}
+            onChange={(e) => setCustomerMobile(e.target.value)}
+            placeholder="Mobile Number"
+            className="w-full bg-[#2D2B3C] px-3 py-2 rounded-lg text-sm outline-none"
+          />
+        </div>
+
+        <div className="flex gap-2 pt-2">
           <button
             onClick={() => setOrderType("Dine In")}
             className={`flex-1 py-2 rounded-lg text-sm font-medium transition
@@ -85,14 +114,12 @@ const OrderSidebar = ({ showCart }) => {
           </button>
         </div>
 
-        {/* HEADER */}
         <div className="grid grid-cols-4 text-xs text-gray-400 pt-4">
           <span className="col-span-2">Item</span>
           <span className="text-center">Qty</span>
           <span className="text-right">Price</span>
         </div>
 
-        {/* ITEMS */}
         <div className="space-y-4 border-t border-[#393C49] pt-4 text-sm">
           {orders.map((item, index) => (
             <div key={index} className="space-y-2">
@@ -112,7 +139,7 @@ const OrderSidebar = ({ showCart }) => {
                       </span>
                     </p>
                     <p className="text-xs text-gray-400">
-                      AED {item.price}
+                      $ {item.price}
                     </p>
                   </div>
                 </div>
@@ -151,7 +178,7 @@ const OrderSidebar = ({ showCart }) => {
 
                 <div className="flex justify-end items-center gap-2">
                   <span>
-                    AED {(item.qty * Number(item.price)).toFixed(2)}
+                    $ {(item.qty * Number(item.price)).toFixed(2)}
                   </span>
 
                   <button
@@ -172,11 +199,10 @@ const OrderSidebar = ({ showCart }) => {
         </div>
       </div>
 
-      {/* FOOTER */}
       <div className="p-6 border-t border-[#393C49] bg-[#1F1D2B]">
         <div className="flex justify-between font-medium mb-4">
           <span>Subtotal</span>
-          <span>{subtotal.toFixed(2)} AED</span>
+          <span><span className="font-bold text-2xl">$</span> {subtotal.toFixed(2)} </span>
         </div>
 
         <button

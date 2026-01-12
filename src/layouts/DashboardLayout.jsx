@@ -11,7 +11,7 @@ const DashboardLayout = () => {
     <div className='flex flex-col flex-1 h-screen'>
     <Dnavbar/>
    
-      <div className='bg-slate-100 z-10 h-screen w-90% pt-4'>
+      <div className='bg-slate-100 z-10 h-screen w-90% pt-4 overflow-y-auto '>
               <Outlet />
             </div>
        

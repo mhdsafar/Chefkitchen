@@ -10,9 +10,7 @@ const { openSignIn } = useClerk();
 
   return (
     <div className='flex bg-white-500 shadow-md  h-[60px]'>
-      <div className='h-12 w-12 ml-5 mt-4 text-xl font-bold font-sans text-gray-700 '>
-        <h2>DEMO</h2>
-      </div>
+      
       <div className='flex items-center gap-4 ml-auto mr-4'>
         
            <div className='bg-slate-300 p-1 rounded-full'>
